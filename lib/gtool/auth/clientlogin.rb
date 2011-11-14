@@ -1,5 +1,4 @@
 require 'thor'
-require 'thor/group'
 require 'gdata'
 require 'yaml'
 
@@ -33,16 +32,6 @@ class Gtool
           end
         end
       end
-
-      no_tasks {
-        def load_auth
-          settings = nil
-          File.open "/Users/adrien/.gtool.yaml" do |f|
-            settings = YAML::load f.read
-          end
-          settings
-        end
-      }
     end
   end
 end
