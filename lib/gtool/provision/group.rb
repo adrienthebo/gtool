@@ -15,20 +15,14 @@ class Gtool
 
         groups = GData::Provision::Group.all(connection)
 
-        fields = [
-          {:group_id         => "%-40s"},
-          {:group_name       => "%-30s"},
-          {:email_permission => "%-7s"},
-          {:description      => "%s"},
-        ]
+        fields = [:group_id, :group_name, :email_permission, :description]
 
-        format_str = fields.map {|field| field.values }.flatten.join(" ")
-        puts format_str % fields.map {|field| field.keys}.flatten
-        groups.each do |group|
-          puts format_str % fields.map {|field| field.keys}.flatten.map {|field| group.send field}
+        rows = groups.map do |group|
+          fields.map {|f| group.send f}
         end
+
+        print_table rows
       end
     end
   end
 end
-

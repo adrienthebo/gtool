@@ -15,19 +15,13 @@ class Gtool
 
         users = GData::Provision::User.all(connection)
 
-        fields = [
-          {:user_name   => "%-20s"},
-          {:given_name  => "%-20s"},
-          {:family_name => "%-15s"},
-          {:admin       => "%-6s"},
-          {:suspended   => "%-6s"},
-        ]
+        fields = [:user_name, :given_name, :family_name, :admin, :suspended]
 
-        format_str = fields.map {|field| field.values }.flatten.join(" ")
-        puts format_str % fields.map {|field| field.keys}.flatten
-        users.each do |user|
-          puts format_str % fields.map {|field| field.keys}.flatten.map {|field| user.send field}
+        rows = users.map do |user|
+          fields.map {|f| user.send f}
         end
+
+        print_table rows
       end
     end
   end
