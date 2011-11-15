@@ -6,7 +6,8 @@ require 'gdata'
 class Gtool
   module Provision
     class User < Thor
-      Gtool.register self, "user", "user", "GData user provisioning"
+      Gtool.register self, "user", "user <COMMAND>", "GData user provisioning"
+      namespace :user
 
       desc "list", "List users"
       def list
@@ -22,6 +23,25 @@ class Gtool
         end
 
         print_table rows
+      end
+
+      desc "get USER", "Get a user"
+      def get(user)
+        settings = Gtool::Auth.load_auth
+        connection = GData::Connection.new(settings[:domain], settings[:token])
+        user = GData::Provision::User.get(connection, user)
+
+        fields = [:user_name, :given_name, :family_name, :admin, :suspended]
+
+        properties = fields.map {|f| user.send f}
+        fields.map! {|f| f.to_s.capitalize.sub(/$/, ":") }
+
+        print_table fields.zip(properties)
+
+      end
+
+      def self.banner(task, namespace = true, subcommand = false)
+        "#{basename} #{task.formatted_usage(self, true, subcommand)}"
       end
     end
   end

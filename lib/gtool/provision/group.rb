@@ -6,7 +6,8 @@ require 'gdata'
 class Gtool
   module Provision
     class Group < Thor
-      Gtool.register self, "group", "group", "GData user provisioning"
+      Gtool.register self, "group", "group <COMMAND>", "GData group provisioning"
+      namespace :group
 
       desc "list", "List users"
       def list
@@ -48,6 +49,10 @@ class Gtool
         group = GData::Provision::Group.get(connection, group)
 
         group.add_member member
+      end
+
+      def self.banner(task, namespace = true, subcommand = false)
+        "#{basename} #{task.formatted_usage(self, true, subcommand)}"
       end
     end
   end
