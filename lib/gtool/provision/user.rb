@@ -16,28 +16,32 @@ class Gtool
 
         users = GData::Provision::User.all(connection)
 
-        fields = [:user_name, :given_name, :family_name, :admin, :suspended]
+        fields = [:user_name, :given_name, :family_name, :admin, :suspended, :change_password_at_next_login]
 
         rows = users.map do |user|
           fields.map {|f| user.send f}
         end
 
         print_table rows
+        say "#{rows.length} entries.", :cyan
       end
 
       desc "get USER", "Get a user"
-      def get(user)
+      def get(username)
         settings = Gtool::Auth.load_auth
         connection = GData::Connection.new(settings[:domain], settings[:token])
-        user = GData::Provision::User.get(connection, user)
+        user = GData::Provision::User.get(connection, username)
 
-        fields = [:user_name, :given_name, :family_name, :admin, :suspended]
+        if user.nil?
+          say "User '#{username}' not found!", :red
+        else
+          fields = [:user_name, :given_name, :family_name, :admin, :suspended]
 
-        properties = fields.map {|f| user.send f}
-        fields.map! {|f| f.to_s.capitalize.sub(/$/, ":") }
+          properties = fields.map {|f| user.send f}
+          fields.map! {|f| f.to_s.capitalize.sub(/$/, ":") }
 
-        print_table fields.zip(properties)
-
+          print_table fields.zip(properties)
+        end
       end
 
       def self.banner(task, namespace = true, subcommand = false)
