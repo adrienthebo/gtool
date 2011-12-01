@@ -7,6 +7,9 @@ class Gtool
     class ClientLogin < Thor::Group
       Gtool.register self, "clientlogin", "clientlogin", "Generate a token using the clientlogin method"
 
+      class_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
+      class_option "noop",  :type => :boolean, :desc => "Enable noop mode", :aliases => "-n"
+
       def token
         user = ask "Username:"
         %x{stty -echo}
@@ -17,7 +20,7 @@ class Gtool
 
         domain  = ask "Domain:"
 
-        authject = GData::Auth::ClientLogin.new(user, pass, service)
+        authject = GData::Auth::ClientLogin.new(user, pass, service, options)
         token = authject.token
 
         if token.nil?

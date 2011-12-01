@@ -9,10 +9,13 @@ class Gtool
       Gtool.register self, "user", "user <COMMAND>", "GData user provisioning"
       namespace :user
 
+      class_option "debug", :desc => "Enable debug output", :aliases => "-d"
+      class_option "noop",  :desc => "Enable noop mode", :aliases => "-n"
+
       desc "list", "List users"
       def list
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
 
         users = GData::Provision::User.all(connection)
 
@@ -29,7 +32,7 @@ class Gtool
       desc "get USER", "Get a user"
       def get(username)
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
         user = GData::Provision::User.get(connection, username)
 
         if user.nil?

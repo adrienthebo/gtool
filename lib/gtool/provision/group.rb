@@ -9,10 +9,13 @@ class Gtool
       Gtool.register self, "group", "group <COMMAND>", "GData group provisioning"
       namespace :group
 
+      class_option "debug", :type => :boolean, :default => false, :lazy_default => true, :desc => "Enable debug output", :aliases => "-d"
+      class_option "noop",  :type => :boolean, :default => false, :lazy_default => true, :desc => "Enable noop mode", :aliases => "-n"
+
       desc "list", "List groups"
       def list
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
 
         groups = GData::Provision::Group.all(connection)
 
@@ -29,7 +32,7 @@ class Gtool
       desc "get GROUP", "Get a particular group instance"
       def get(groupname)
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
 
         group = GData::Provision::Group.get(connection, groupname)
 
@@ -47,7 +50,7 @@ class Gtool
       desc "members GROUP", "Display members of a group"
       def members(groupname)
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
 
         group = GData::Provision::Group.get(connection, groupname)
 
@@ -68,7 +71,7 @@ class Gtool
       desc "addmember GROUP MEMBER", "Add a member to a group"
       def addmember(group, member)
         settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token])
+        connection = GData::Connection.new(settings[:domain], settings[:token], options)
         group = GData::Provision::Group.get(connection, group)
 
         group.add_member member
