@@ -14,9 +14,7 @@ class Gtool
 
       desc "list", "List groups"
       def list
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
-
+        connection = Gtool::Auth.connection(options)
         groups = GData::Provision::Group.all(connection)
 
         fields = [:group_id, :group_name, :email_permission, :description]
@@ -31,9 +29,7 @@ class Gtool
 
       desc "get GROUP", "Get a particular group instance"
       def get(groupname)
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
-
+        connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
 
         if group.nil?
@@ -49,9 +45,7 @@ class Gtool
 
       desc "members GROUP", "Display members of a group"
       def members(groupname)
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
-
+        connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
 
         if group.nil?
@@ -70,8 +64,7 @@ class Gtool
 
       desc "addmember GROUP MEMBER", "Add a member to a group"
       def addmember(group, member)
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
+        connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, group)
 
         group.add_member member

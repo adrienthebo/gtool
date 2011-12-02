@@ -1,6 +1,5 @@
 require 'thor'
 require 'gtool'
-require 'gtool/auth'
 require 'gdata'
 
 class Gtool
@@ -14,9 +13,7 @@ class Gtool
 
       desc "list", "List users"
       def list
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
-
+        connection = Gtool::Auth.connection(options)
         users = GData::Provision::User.all(connection)
 
         fields = [:user_name, :given_name, :family_name, :admin, :suspended, :change_password_at_next_login]
@@ -31,8 +28,7 @@ class Gtool
 
       desc "get USER", "Get a user"
       def get(username)
-        settings = Gtool::Auth.load_auth
-        connection = GData::Connection.new(settings[:domain], settings[:token], options)
+        connection = Gtool::Auth.connection(options)
         user = GData::Provision::User.get(connection, username)
 
         if user.nil?
