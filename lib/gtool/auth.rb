@@ -3,6 +3,7 @@ require 'gdata'
 require 'yaml'
 
 class Gtool
+  module Wtf # Additional namespacing is needed for nice formatting. Iunno.
   class Auth < Thor
     Gtool.register self, "auth", "auth [COMMAND]", "GData authentication operations"
     namespace :auth
@@ -71,5 +72,6 @@ class Gtool
     def self.banner(task, namespace = true, subcommand = false)
       "#{basename} #{task.formatted_usage(self, true, subcommand)}"
     end
+  end
   end
 end
