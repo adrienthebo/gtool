@@ -52,8 +52,14 @@ class Gtool
 
     def self.settings
       settings = nil
-      File.open "#{ENV['HOME']}/.gtool.yaml" do |f|
-        settings = YAML::load f.read
+      creds_file = "#{ENV['HOME']}/.gtool.yaml"
+      begin
+        File.open creds_file do |f|
+          settings = YAML::load f.read
+        end
+      rescue Errno::ENOENT
+        puts "#{creds_file} does not exist, run 'gtool auth generate'"
+        exit
       end
       settings
     end
