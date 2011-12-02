@@ -8,8 +8,8 @@ class Gtool
       Gtool.register self, "user", "user [COMMAND]", "GData user provisioning"
       namespace :user
 
-      class_option "debug", :desc => "Enable debug output", :aliases => "-d"
-      class_option "noop",  :desc => "Enable noop mode", :aliases => "-n"
+      class_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
+      class_option "noop",  :type => :boolean, :desc => "Enable noop mode", :aliases => "-n"
 
       desc "list", "List users"
       def list
