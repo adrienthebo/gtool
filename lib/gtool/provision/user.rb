@@ -5,7 +5,7 @@ require 'gdata'
 class Gtool
   module Provision
     class User < Thor
-      Gtool.register self, "user", "user <COMMAND>", "GData user provisioning"
+      Gtool.register self, "user", "user [COMMAND]", "GData user provisioning"
       namespace :user
 
       class_option "debug", :desc => "Enable debug output", :aliases => "-d"
