@@ -2,9 +2,9 @@ require 'gtool'
 require 'gdata'
 require 'yaml'
 
-class Gtool
+module Gtool
   class Auth < Thor
-    Gtool.register self, "auth", "auth [COMMAND]", "GData authentication operations"
+    Gtool::CLI.register self, "auth", "auth [COMMAND]", "GData authentication operations"
     namespace :auth
 
     desc "generate", "Generate a token using the clientlogin method"

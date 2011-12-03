@@ -2,10 +2,10 @@ require 'thor'
 require 'gtool'
 require 'gdata'
 
-class Gtool
+module Gtool
   module Provision
     class Group < Thor
-      Gtool.register self, "group", "group [COMMAND]", "GData group provisioning"
+      Gtool::CLI.register self, "group", "group [COMMAND]", "GData group provisioning"
       namespace :group
 
       class_option "debug", :type => :boolean, :default => false, :desc => "Enable debug output", :aliases => "-d"
