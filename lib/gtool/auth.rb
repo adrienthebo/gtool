@@ -16,7 +16,9 @@ module Gtool
       pass = ask "Password:"
       %x{stty echo}
       puts
-      service = ask "Service:"
+      service = ask "Service (defaults to apps):"
+
+      service = "apps" if service == ""
 
       domain  = ask "Domain:"
 
