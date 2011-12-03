@@ -1,6 +1,7 @@
 require 'thor'
 require 'gtool'
 require 'gdata'
+require 'digest/sha1'
 
 module Gtool
   module Provision
@@ -40,6 +41,39 @@ module Gtool
           fields.map! {|f| f.to_s.capitalize.sub(/$/, ":") }
 
           print_table fields.zip(properties)
+        end
+      end
+
+      desc "create USER", "Create a new user"
+      def create(username)
+        connection = Gtool::Auth.connection(options)
+
+        user = GData::Provision::User.new
+        user.connection = connection
+
+        user.user_name = username
+        user.given_name = ask "Given Name:"
+        user.family_name = ask "Family Name:"
+
+        # password! wheee!
+        %x{stty -echo}
+        user.password = Digest::SHA1.hexdigest(ask "Password: ")
+        user.hash_function_name = "SHA-1"
+        %x{stty echo}
+
+        user.create!
+
+        invoke "user:get", [user.user_name]
+      end
+
+      desc "delete USER", "Delete a user"
+      def delete(username)
+        connection = Gtool::Auth.connection(options)
+        invoke "user:get", [username]
+        user = GData::Provision::User.get(connection, username)
+
+        if user and (yes? "Permanently delete this user?") and (username == ask("Type in #{username} to confirm:"))
+          user.delete!
         end
       end
 
