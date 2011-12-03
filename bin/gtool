@@ -5,6 +5,8 @@ begin
   Gtool::CLI.start
 rescue GData::Error::TokenInvalid
   $stderr.puts "Invalid token, run '#{$0} auth generate' to generate a valid token."
+rescue GData::Error => e
+  raise e, "GData API error occurred!"
 rescue Interrupt
   $stderr.puts "\nAborted!"
 end
