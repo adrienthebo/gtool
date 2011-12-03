@@ -11,7 +11,8 @@ rescue GData::Error::QuotaExceeded
 rescue GData::Error::InputInvalid => e
   raise e, "Malformed API request"
 rescue GData::Error => e
-  raise e, "Generic GData API error occurred"
+  $stderr.puts "Generic GData API error occurred"
+  $stderr.puts e.request.inspect
 rescue Interrupt
   $stderr.puts "\nAborted!"
 end
