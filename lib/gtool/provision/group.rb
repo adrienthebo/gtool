@@ -58,15 +58,34 @@ class Gtool
           end
 
           print_table rows
+          say "#{rows.length} entries.", :cyan
         end
       end
 
       desc "addmember GROUP MEMBER", "Add a member to a group"
-      def addmember(group, member)
+      def addmember(groupname, member)
         connection = Gtool::Auth.connection(options)
-        group = GData::Provision::Group.get(connection, group)
+        group = GData::Provision::Group.get(connection, groupname)
 
-        group.add_member member
+        if group.nil?
+          say "Group '#{groupname}' not found!", :red
+        else
+          group.add_member member
+          invoke "group:members", [groupname]
+        end
+      end
+
+      desc "delmember GROUP MEMBER", "Remove a member from a group"
+      def delmember(groupname, member)
+        connection = Gtool::Auth.connection(options)
+        group = GData::Provision::Group.get(connection, groupname)
+
+        if group.nil?
+          say "Group '#{groupname}' not found!", :red
+        else
+          group.del_member member
+          invoke "group:members", [groupname]
+        end
       end
 
       def self.banner(task, namespace = true, subcommand = false)
