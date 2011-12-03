@@ -1,5 +1,11 @@
-require 'thor'
-require 'thor/group'
+begin
+  require 'thor'
+  require 'thor/group'
+rescue LoadError
+  require 'rubygems'
+  require 'thor'
+  require 'thor/group'
+end
 
 class Gtool < Thor
 
