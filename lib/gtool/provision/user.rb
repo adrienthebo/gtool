@@ -16,13 +16,13 @@ module Gtool
       def list
         connection = Gtool::Auth.connection(options)
         users = GData::Provision::User.all(connection)
-
-        fields = [:user_name, :given_name, :family_name, :admin, :suspended, :change_password_at_next_login]
+        fields = GData::Provision::User.attributes
 
         rows = users.map do |user|
           fields.map {|f| user.send f}
         end
 
+        # TODO columns need headers
         print_table rows
         say "#{rows.length} entries.", :cyan
       end
@@ -31,16 +31,14 @@ module Gtool
       def get(username)
         connection = Gtool::Auth.connection(options)
         user = GData::Provision::User.get(connection, username)
+        fields = GData::Provision::User.attributes
+        field_names = GData::Provision::User.attribute_names
 
         if user.nil?
           say "User '#{username}' not found!", :red
         else
-          fields = [:user_name, :given_name, :family_name, :admin, :suspended]
-
           properties = fields.map {|f| user.send f}
-          fields.map! {|f| f.to_s.capitalize.sub(/$/, ":") }
-
-          print_table fields.zip(properties)
+          print_table field_names.zip(properties)
         end
       end
 

@@ -15,8 +15,7 @@ module Gtool
       def list
         connection = Gtool::Auth.connection(options)
         groups = GData::Provision::Group.all(connection)
-
-        fields = [:group_id, :group_name, :email_permission, :description]
+        fields = GData::Provision::Group.attributes
 
         rows = groups.map do |group|
           fields.map {|f| group.send f}
@@ -30,15 +29,14 @@ module Gtool
       def get(groupname)
         connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
+        fields = GData::Provision::Group.attributes
+        field_names = GData::Provision::Group.attribute_names
 
         if group.nil?
           say "Group '#{groupname}' not found!", :red
         else
-
-          group.attributes.each do |attr|
-            print "#{attr.first}: "
-            puts group.send attr.first
-          end
+          properties = fields.map {|f| group.send f}
+          print_table field_names.zip(properties)
         end
       end
 
@@ -46,13 +44,13 @@ module Gtool
       def members(groupname)
         connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
+        fields = GData::Provision::Member.attributes
 
         if group.nil?
           say "Group '#{groupname}' not found!", :red
         else
           members = group.list_members
 
-          fields = [:member_id, :member_type, :direct_member]
           rows = members.map do |member|
             fields.map {|f| member.send f}
           end
