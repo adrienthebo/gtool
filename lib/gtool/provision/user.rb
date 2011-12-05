@@ -1,11 +1,13 @@
 require 'thor'
 require 'gtool'
+require 'gtool/util/ask_default'
 require 'gdata'
 require 'digest/sha1'
 
 module Gtool
   module Provision
     class User < Thor
+      include Gtool::Util
       Gtool::CLI.register self, "user", "user [COMMAND]", "GData user provisioning"
       namespace :user
 
@@ -55,11 +57,39 @@ module Gtool
 
         # password! wheee!
         %x{stty -echo}
-        user.password = Digest::SHA1.hexdigest(ask "Password: ")
+        user.password = Digest::SHA1.hexdigest(ask "Password:")
         user.hash_function_name = "SHA-1"
         %x{stty echo}
 
         user.create!
+
+        invoke "user:get", [user.user_name]
+      end
+
+      desc "update USER", "Update an existing user"
+      def update(username)
+        connection = Gtool::Auth.connection(options)
+
+        user = GData::Provision::User.get(connection, username)
+
+        user.user_name = ask_default(user.user_name, "Username (#{user.user_name}):")
+        user.given_name = ask_default(user.given_name, "Given Name (#{user.given_name}):")
+        user.family_name = ask_default(user.family_name, "Family Name (#{user.family_name}):")
+        user.admin = ask_default(user.admin, "Administrator (#{user.admin}):")
+        user.agreed_to_terms = ask_default(user.agreed_to_terms, "Agreed to terms (#{user.agreed_to_terms}):")
+        user.change_password_at_next_login = ask_default(user.change_password_at_next_login, "Change password at next login (#{user.change_password_at_next_login}):")
+        user.suspended = ask_default(user.suspended, "Suspended (#{user.suspended}):")
+
+        # password! wheee!
+        %x{stty -echo}
+        password = ask "Password (blank will not change):"
+        unless password.empty?
+          user.password = Digest::SHA1.hexdigest(password)
+          user.hash_function_name = "SHA-1"
+        end
+        %x{stty echo}
+
+        user.update!
 
         invoke "user:get", [user.user_name]
       end
