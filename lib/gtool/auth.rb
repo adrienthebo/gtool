@@ -1,9 +1,11 @@
 require 'gtool'
+require 'gtool/util/ask_default'
 require 'gdata'
 require 'yaml'
 
 module Gtool
   class Auth < Thor
+    include Gtool::Util
     Gtool::CLI.register self, "auth", "auth [COMMAND]", "GData authentication operations"
     namespace :auth
 
@@ -16,9 +18,8 @@ module Gtool
       pass = ask "Password:"
       %x{stty echo}
       puts
-      service = ask "Service (defaults to apps):"
 
-      service = "apps" if service == ""
+      service = ask_default "apps", "Service (defaults to apps):"
 
       domain  = ask "Domain:"
 
