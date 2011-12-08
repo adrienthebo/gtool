@@ -24,7 +24,7 @@ module Gtool
           fields.map {|f| user.send f}
         end
 
-        # TODO columns need headers
+        rows.unshift field_names
         print_table rows
         say "#{rows.length} entries.", :cyan
       end

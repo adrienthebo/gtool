@@ -22,6 +22,7 @@ module Gtool
           fields.map {|f| group.send f}
         end
 
+        rows.unshift field_names
         print_table rows
         say "#{rows.length} entries.", :cyan
       end
@@ -57,6 +58,7 @@ module Gtool
             fields.map {|f| member.send f}
           end
 
+          rows.unshift field_names
           print_table rows
           say "#{rows.length} entries.", :cyan
         end
