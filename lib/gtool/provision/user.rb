@@ -106,6 +106,22 @@ module Gtool
         end
       end
 
+      desc "groups USER", "Retrieve groups for a user"
+      def groups(username)
+        connection = Gtool::Auth.connection(options)
+        groups = GData::Provision::Group.all(connection, :member => username)
+        fields = GData::Provision::Group.attribute_names
+        field_names = GData::Provision::Group.attribute_titles
+
+        rows = groups.map do |group|
+          fields.map {|f| group.send f}
+        end
+
+        rows.unshift field_names
+        print_table rows
+        say "#{rows.length} entries.", :cyan
+      end
+
       def self.banner(task, namespace = true, subcommand = false)
         "#{basename} #{task.formatted_usage(self, true, subcommand)}"
       end
