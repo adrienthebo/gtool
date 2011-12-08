@@ -18,7 +18,8 @@ module Gtool
       def list
         connection = Gtool::Auth.connection(options)
         users = GData::Provision::User.all(connection)
-        fields = GData::Provision::User.attributes
+        fields = GData::Provision::User.attribute_names
+        field_names = GData::Provision::User.attribute_titles
 
         rows = users.map do |user|
           fields.map {|f| user.send f}
