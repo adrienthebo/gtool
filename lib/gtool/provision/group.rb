@@ -15,7 +15,8 @@ module Gtool
       def list
         connection = Gtool::Auth.connection(options)
         groups = GData::Provision::Group.all(connection)
-        fields = GData::Provision::Group.attributes
+        fields = GData::Provision::Group.attribute_names
+        field_names = GData::Provision::Group.attribute_titles
 
         rows = groups.map do |group|
           fields.map {|f| group.send f}
@@ -29,8 +30,8 @@ module Gtool
       def get(groupname)
         connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
-        fields = GData::Provision::Group.attributes
-        field_names = GData::Provision::Group.attribute_names
+        fields = GData::Provision::Group.attribute_names
+        field_names = GData::Provision::Group.attribute_titles
 
         if group.nil?
           say "Group '#{groupname}' not found!", :red
@@ -44,7 +45,8 @@ module Gtool
       def members(groupname)
         connection = Gtool::Auth.connection(options)
         group = GData::Provision::Group.get(connection, groupname)
-        fields = GData::Provision::Member.attributes
+        fields = GData::Provision::Member.attribute_names
+        field_names = GData::Provision::Member.attribute_titles
 
         if group.nil?
           say "Group '#{groupname}' not found!", :red
