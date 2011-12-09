@@ -27,7 +27,7 @@ module Gtool
 
         rows.unshift field_names
         print_table rows
-        say "#{rows.length} entries.", :cyan
+        say "#{rows.length - 1} entries.", :cyan
       end
 
       desc "get USER", "Get a user"
@@ -119,7 +119,7 @@ module Gtool
 
         rows.unshift field_names
         print_table rows
-        say "#{rows.length} entries.", :cyan
+        say "#{rows.length - 1} entries.", :cyan
       end
 
       def self.banner(task, namespace = true, subcommand = false)

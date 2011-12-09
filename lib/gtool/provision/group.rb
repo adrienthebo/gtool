@@ -24,7 +24,7 @@ module Gtool
 
         rows.unshift field_names
         print_table rows
-        say "#{rows.length} entries.", :cyan
+        say "#{rows.length - 1} entries.", :cyan
       end
 
       desc "get GROUP", "Get a particular group instance"
@@ -60,7 +60,7 @@ module Gtool
 
           rows.unshift field_names
           print_table rows
-          say "#{rows.length} entries.", :cyan
+        say "#{rows.length - 1} entries.", :cyan
         end
       end
 
