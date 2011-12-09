@@ -1,10 +1,12 @@
 require 'thor'
 require 'gtool'
+require 'gtool/util/ask_default'
 require 'gdata'
 
 module Gtool
   module Provision
     class Group < Thor
+      include Gtool::Util
       Gtool::CLI.register self, "group", "group [COMMAND]", "GData group provisioning"
       namespace :group
 

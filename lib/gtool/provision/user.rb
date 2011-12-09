@@ -49,8 +49,7 @@ module Gtool
       def create(username)
         connection = Gtool::Auth.connection(options)
 
-        user = GData::Provision::User.new
-        user.connection = connection
+        user = GData::Provision::User.new(:connection => connection)
 
         user.user_name = username
         user.given_name = ask "Given Name:"
