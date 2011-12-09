@@ -44,6 +44,26 @@ module Gtool
         end
       end
 
+      desc "create GROUP", "Create a new group"
+      def create(groupname)
+        connection = Gtool::Auth.connection(options)
+        group = GData::Provision::Group.new(:connection => connection)
+
+        group.group_id = groupname
+        group.group_name        = ask "Group name:"
+        group.email_permission  = ask "Email Permission:"
+        group.permission_preset = ask "Permission Preset:"
+        group.description       = ask "Group Description:"
+
+        group.create!
+
+        invoke "group:get", [group.group_id]
+      end
+
+      # TODO update group This is pending on the the backing group being able
+      # to store the group_id for the case that the group_id here is changed,
+      # but needs to post back to a specific url
+
       desc "members GROUP", "Display members of a group"
       def members(groupname)
         connection = Gtool::Auth.connection(options)
