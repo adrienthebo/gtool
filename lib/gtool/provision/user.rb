@@ -51,8 +51,8 @@ module Gtool
 
         user = GData::Provision::User.new(:connection => connection)
 
-        user.user_name = username
-        user.given_name = ask "Given Name:"
+        user.user_name   = username
+        user.given_name  = ask "Given Name:"
         user.family_name = ask "Family Name:"
 
         # password! wheee!
@@ -72,15 +72,14 @@ module Gtool
 
         user = GData::Provision::User.get(connection, username)
 
-        user.user_name = ask_default(user.user_name, "Username (#{user.user_name}):")
-        user.given_name = ask_default(user.given_name, "Given Name (#{user.given_name}):")
-        user.family_name = ask_default(user.family_name, "Family Name (#{user.family_name}):")
-        user.admin = ask_default(user.admin, "Administrator (#{user.admin}):")
+        user.user_name       = ask_default(user.user_name,       "Username (#{user.user_name}):")
+        user.given_name      = ask_default(user.given_name,      "Given Name (#{user.given_name}):")
+        user.family_name     = ask_default(user.family_name,     "Family Name (#{user.family_name}):")
+        user.admin           = ask_default(user.admin,           "Administrator (#{user.admin}):")
         user.agreed_to_terms = ask_default(user.agreed_to_terms, "Agreed to terms (#{user.agreed_to_terms}):")
+        user.suspended       = ask_default(user.suspended,       "Suspended (#{user.suspended}):")
         user.change_password_at_next_login = ask_default(user.change_password_at_next_login, "Change password at next login (#{user.change_password_at_next_login}):")
-        user.suspended = ask_default(user.suspended, "Suspended (#{user.suspended}):")
 
-        # password! wheee!
         %x{stty -echo}
         password = ask "Password (blank will not change):"
         unless password.empty?
