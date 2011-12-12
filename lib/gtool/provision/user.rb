@@ -34,8 +34,8 @@ module Gtool
       def get(username)
         connection = Gtool::Auth.connection(options)
         user = GData::Provision::User.get(connection, username)
-        fields = GData::Provision::User.attributes
-        field_names = GData::Provision::User.attribute_names
+        fields = GData::Provision::User.attribute_names
+        field_names = GData::Provision::User.attribute_titles
 
         if user.nil?
           say "User '#{username}' not found!", :red
