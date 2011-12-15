@@ -138,6 +138,31 @@ module Gtool
         end
       end
 
+      desc "addowner GROUP OWNER", "Add an owner to a group"
+      def addowner(groupname, owner)
+        connection = Gtool::Auth.connection(options)
+        group = GData::Provision::Group.get(connection, groupname)
+
+        if group.nil?
+          say "Group '#{groupname}' not found!", :red
+        else
+          group.add_owner owner
+          invoke "group:owners", [groupname]
+        end
+      end
+
+      desc "delowner GROUP OWNER", "Remove an owner from a group"
+      def delowner(groupname, owner)
+        connection = Gtool::Auth.connection(options)
+        group = GData::Provision::Group.get(connection, groupname)
+
+        if group.nil?
+          say "Group '#{groupname}' not found!", :red
+        else
+          group.del_owner owner
+          invoke "group:owners", [groupname]
+        end
+      end
 
       def self.banner(task, namespace = true, subcommand = false)
         "#{basename} #{task.formatted_usage(self, true, subcommand)}"
