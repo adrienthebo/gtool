@@ -112,6 +112,33 @@ module Gtool
         end
       end
 
+      desc "owners GROUP", "Display owners of a group"
+      def owners(groupname)
+        connection = Gtool::Auth.connection(options)
+        group = GData::Provision::Group.get(connection, groupname)
+        fields = GData::Provision::Owner.attribute_names
+        field_names = GData::Provision::Owner.attribute_titles
+
+        if group.nil?
+          say "Group '#{groupname}' not found!", :red
+        else
+          owners = group.list_owners
+
+          if owners.nil?
+            say "Group #{groupname} has no owners!", :red
+          else
+            rows = owners.map { |owner| fields.map {|f| owner.send f} }
+
+            rows.unshift field_names
+            # XXX https://github.com/wycats/thor/issues/100
+            # print_table rows
+            puts rows.join("\n")
+            say "#{rows.length - 1} entries.", :cyan
+          end
+        end
+      end
+
+
       def self.banner(task, namespace = true, subcommand = false)
         "#{basename} #{task.formatted_usage(self, true, subcommand)}"
       end
