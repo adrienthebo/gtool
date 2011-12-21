@@ -27,6 +27,21 @@ module Gtool
         say "#{rows.length - 1} entries.", :cyan
       end
 
+      desc "get ORGUNIT", "Get an orgunit"
+      def get(orgunit_name)
+        connection = Gtool::Auth.connection(options)
+        orgunit = GData::Provision::OrgUnit.get(connection, orgunit_name)
+        fields = GData::Provision::OrgUnit.attribute_names
+        field_names = GData::Provision::OrgUnit.attribute_titles
+
+        if orgunit.nil?
+          say "Organizational unit '#{orgunit_name}' not found!", :red
+        else
+          properties = fields.map {|f| orgunit.send f}
+          print_table field_names.zip(properties)
+        end
+      end
+
       def self.banner(task, namespace = true, subcommand = false)
         "#{basename} #{task.formatted_usage(self, true, subcommand)}"
       end
