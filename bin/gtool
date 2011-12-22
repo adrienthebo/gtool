@@ -9,7 +9,8 @@ rescue GData::Error::TokenInvalid
 rescue GData::Error::QuotaExceeded
   Thor::Shell::Color.new.say "API quota exceeded, try again later.", :red
 rescue GData::Error::InputInvalid => e
-  raise e, "Malformed API request"
+  Thor::Shell::Color.new.say "Request failed; sent invalid input", :red
+  $stderr.puts e.request.inspect
 rescue GData::Error => e
   $stderr.puts "Generic GData API error occurred"
   $stderr.puts e.request.inspect
