@@ -9,6 +9,8 @@ module Gtool
     Gtool::CLI.register self, "auth", "auth [COMMAND]", "GData authentication operations"
     namespace :auth
 
+    TOKEN_DURATION = 60 * 60 * 24 * 14
+
     desc "generate", "Generate a token using the clientlogin method"
     method_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
     method_option "noop",  :type => :boolean, :desc => "Enable noop mode", :aliases => "-n"
@@ -29,7 +31,7 @@ module Gtool
       if token.nil?
         say "Authentication failed!", :red
       else
-        say "Authentication accepted, token valid till #{Time.now + (60 * 60 * 24)}", :green
+        say "Authentication accepted, token valid till #{Time.now + TOKEN_DURATION}", :green
         credentials = {:token => token, :created => Time.now, :domain => domain}
 
         File.open("#{ENV['HOME']}/.gtool.yaml", "w") do |f|
@@ -43,12 +45,13 @@ module Gtool
     def display
       settings = self.class.settings
 
-      expiration = Time.at(settings[:created]) + (60 * 60 * 24)
+      expiration = Time.at(settings[:created]) + TOKEN_DURATION
 
       if Time.now > expiration
         say "created: #{settings[:created]} (expired)", :red
       else
         say "created: #{settings[:created]} (valid)", :green
+        say "expires: #{expiration}", :green
       end
       say "token: #{settings[:token]}", :cyan
     end
