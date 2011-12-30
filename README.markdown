@@ -23,11 +23,25 @@ Wait for someone to turn this into a gem.
     git clone git://github.com/adrienthebo/gtool
 
     export RUBYLIB="${RUBYLIB}:`pwd`/ruby-gdata/lib:`pwd`/gtool/lib"
+    export PATH="${PATH}:`pwd`/gtool/bin"
 
-    ./gtool/bin/gtool # magic!
+    % gtool # magic!
 
 Usage
 -----
+
+**General Usage**
+
+    % gtool
+    Tasks:
+      gtool auth [COMMAND]     # GData authentication operations
+      gtool customerid         # Display Customer ID for the domain
+      gtool group [COMMAND]    # GData group provisioning
+      gtool help [TASK]        # Describe available tasks or one specific task
+      gtool orgunit [COMMAND]  # GData user provisioning
+      gtool user [COMMAND]     # GData user provisioning
+
+- - -
 
 **Authentication**
 
@@ -49,7 +63,7 @@ Usage
 
 - - -
 
-**User Manipulation**
+**Users**
 
     % gtool user
     Tasks:
@@ -60,7 +74,7 @@ Usage
 
 - - -
 
-**Group Manipulation**
+**Groups**
 
     % gtool group
     Tasks:
@@ -71,4 +85,15 @@ Usage
       gtool group members GROUP           # Display members of a group
 
 
-Rest of documentation to come when the interface is more stable.
+
+**Organizational Units**
+
+    % gtool orgunit
+    Tasks:
+      gtool orgunit get ORGUNIT      # Get an orgunit
+      gtool orgunit list             # List organizational units
+      gtool orgunit members ORGUNIT  # Get the members of an orgunit
+
+- - -
+
+More complete documentation is pending on a more complete codebase.
