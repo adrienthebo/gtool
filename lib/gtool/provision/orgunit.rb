@@ -60,6 +60,22 @@ module Gtool
         say "#{rows.length - 1} entries.", :cyan
       end
 
+      desc "allmembers", "Retrieve all organization users"
+      def allmembers
+        connection = Gtool::Auth.connection(options)
+        fields = GData::Provision::OrgMember.attribute_names
+        field_names = GData::Provision::OrgMember.attribute_titles
+
+        members = GData::Provision::OrgMember.all(connection, :target => :all)
+
+        rows = members.map do |member|
+          fields.map {|f| member.send f}
+        end
+
+        rows.unshift field_names
+        print_table rows
+        say "#{rows.length - 1} entries.", :cyan
+      end
 
       def self.banner(task, namespace = true, subcommand = false)
         "#{basename} #{task.formatted_usage(self, true, subcommand)}"
