@@ -5,7 +5,7 @@ require 'gdata'
 module Gtool
   module Provision
     class OrgUnit < Thor
-      Gtool::CLI.register self, "orgunit", "orgunit [COMMAND]", "GData user provisioning"
+      Gtool::CLI.register self, "orgunit", "orgunit [COMMAND]", "GData organizational unit provisioning"
       namespace :orgunit
 
       class_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
