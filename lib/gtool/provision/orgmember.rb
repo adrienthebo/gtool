@@ -14,13 +14,11 @@ module Gtool
       desc "members ORGUNIT", "Get the members of an orgunit"
       def members(orgunit_name)
         connection = Gtool::Auth.connection(options)
-        orgunit = GData::Provision::OrgUnit.get(connection, orgunit_name)
+        orgmembers = GData::Provision::OrgMember.all(connection, :target => :orgunit, :orgunit => orgunit_name)
         fields = GData::Provision::OrgMember.attribute_names
         field_names = GData::Provision::OrgMember.attribute_titles
 
-        members = orgunit.list_members
-
-        rows = members.map do |member|
+        rows = orgmembers.map do |member|
           fields.map {|f| member.send f}
         end
 
