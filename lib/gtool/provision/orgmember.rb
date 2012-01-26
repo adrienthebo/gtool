@@ -51,6 +51,12 @@ module Gtool
 
       desc "move ORG_MEMBER, NEW_ORGUNIT", "Move an organization unit member"
       def move(membername, orgunit)
+        connection = Gtool::Auth.connection(options)
+        orgmember = GData::Provision::OrgMember.get(connection, membername)
+        orgmember.org_unit_path = orgunit
+        orgmember.update!
+
+        invoke "orgmember:get", [membername]
       end
 
       def self.banner(task, namespace = true, subcommand = false)
