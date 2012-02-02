@@ -1,12 +1,12 @@
 require 'gtool'
 require 'gtool/util/ask_default'
-require 'gdata'
+require 'gprov'
 require 'yaml'
 
 module Gtool
   class Auth < Thor
     include Gtool::Util
-    Gtool::CLI.register self, "auth", "auth [COMMAND]", "GData authentication operations"
+    Gtool::CLI.register self, "auth", "auth [COMMAND]", "GProv authentication operations"
     namespace :auth
 
     TOKEN_DURATION = 60 * 60 * 24 * 14
@@ -25,7 +25,7 @@ module Gtool
 
       domain  = ask "Domain:"
 
-      authject = GData::Auth::ClientLogin.new(user, pass, service, options)
+      authject = GProv::Auth::ClientLogin.new(user, pass, service, options)
       token = authject.token
 
       if token.nil?
@@ -71,7 +71,7 @@ module Gtool
     end
 
     def self.connection(options)
-      connection = GData::Connection.new(settings[:domain], settings[:token], options)
+      connection = GProv::Connection.new(settings[:domain], settings[:token], options)
     end
 
     def self.banner(task, namespace = true, subcommand = false)

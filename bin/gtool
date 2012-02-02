@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'gtool'
-require 'gdata/error'
+require 'gprov/error'
 require 'thor/shell/color'
 begin
   Gtool::CLI.start

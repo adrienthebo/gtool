@@ -1,7 +1,7 @@
 require 'thor'
 require 'thor/group'
 require 'gtool'
-require 'gdata'
+require 'gprov'
 
 module Gtool
   module Provision
@@ -13,9 +13,9 @@ module Gtool
 
       def display
         connection = Gtool::Auth.connection(options)
-        fields = GData::Provision::CustomerID.attribute_names
-        field_names = GData::Provision::CustomerID.attribute_titles
-        id = GData::Provision::CustomerID.get(connection)
+        fields = GProv::Provision::CustomerID.attribute_names
+        field_names = GProv::Provision::CustomerID.attribute_titles
+        id = GProv::Provision::CustomerID.get(connection)
 
         properties = fields.map {|f| id.send f}
         print_table field_names.zip(properties)

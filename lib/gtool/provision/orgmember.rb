@@ -1,11 +1,11 @@
 require 'thor'
 require 'gtool'
-require 'gdata'
+require 'gprov'
 
 module Gtool
   module Provision
     class OrgMember < Thor
-      Gtool::CLI.register self, "orgmember", "orgmember [COMMAND]", "GData organizational member provisioning"
+      Gtool::CLI.register self, "orgmember", "orgmember [COMMAND]", "GProv organizational member provisioning"
       namespace :orgmember
 
       class_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
@@ -21,9 +21,9 @@ module Gtool
         end
 
         connection = Gtool::Auth.connection(options)
-        orgmembers = GData::Provision::OrgMember.all(connection, options_hash)
-        fields = GData::Provision::OrgMember.attribute_names
-        field_names = GData::Provision::OrgMember.attribute_titles
+        orgmembers = GProv::Provision::OrgMember.all(connection, options_hash)
+        fields = GProv::Provision::OrgMember.attribute_names
+        field_names = GProv::Provision::OrgMember.attribute_titles
 
         rows = orgmembers.map do |member|
           fields.map {|f| member.send f}
@@ -37,9 +37,9 @@ module Gtool
       desc "get MEMBER", "Retrieve a specific orgunit member"
       def get(membername)
         connection = Gtool::Auth.connection(options)
-        orgmember = GData::Provision::OrgMember.get(connection, membername)
-        fields = GData::Provision::OrgMember.attribute_names
-        field_names = GData::Provision::OrgUnit.attribute_titles
+        orgmember = GProv::Provision::OrgMember.get(connection, membername)
+        fields = GProv::Provision::OrgMember.attribute_names
+        field_names = GProv::Provision::OrgUnit.attribute_titles
 
         if orgmember.nil?
           say "Organizational unit '#{orgmember}' not found!", :red
@@ -52,7 +52,7 @@ module Gtool
       desc "move ORG_MEMBER, NEW_ORGUNIT", "Move an organization unit member"
       def move(membername, orgunit)
         connection = Gtool::Auth.connection(options)
-        orgmember = GData::Provision::OrgMember.get(connection, membername)
+        orgmember = GProv::Provision::OrgMember.get(connection, membername)
         orgmember.org_unit_path = orgunit
         orgmember.update!
 

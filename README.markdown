@@ -19,10 +19,10 @@ Wait for someone to turn this into a gem.
 
 **from source**
 
-    git clone git://github.com/adrienthebo/ruby-gdata
+    git clone git://github.com/adrienthebo/ruby-gprov
     git clone git://github.com/adrienthebo/gtool
 
-    export RUBYLIB="${RUBYLIB}:`pwd`/ruby-gdata/lib:`pwd`/gtool/lib"
+    export RUBYLIB="${RUBYLIB}:`pwd`/ruby-gprov/lib:`pwd`/gtool/lib"
     export PATH="${PATH}:`pwd`/gtool/bin"
 
     % gtool # magic!
@@ -34,12 +34,12 @@ Usage
 
     % gtool
     Tasks:
-      gtool auth [COMMAND]     # GData authentication operations
+      gtool auth [COMMAND]     # GProv authentication operations
       gtool customerid         # Display Customer ID for the domain
-      gtool group [COMMAND]    # GData group provisioning
+      gtool group [COMMAND]    # GProv group provisioning
       gtool help [TASK]        # Describe available tasks or one specific task
-      gtool orgunit [COMMAND]  # GData user provisioning
-      gtool user [COMMAND]     # GData user provisioning
+      gtool orgunit [COMMAND]  # GProv user provisioning
+      gtool user [COMMAND]     # GProv user provisioning
 
 - - -
 

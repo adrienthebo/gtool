@@ -1,11 +1,11 @@
 require 'thor'
 require 'gtool'
-require 'gdata'
+require 'gprov'
 
 module Gtool
   module Provision
     class OrgUnit < Thor
-      Gtool::CLI.register self, "orgunit", "orgunit [COMMAND]", "GData organizational unit provisioning"
+      Gtool::CLI.register self, "orgunit", "orgunit [COMMAND]", "GProv organizational unit provisioning"
       namespace :orgunit
 
       class_option "debug", :type => :boolean, :desc => "Enable debug output", :aliases => "-d"
@@ -14,9 +14,9 @@ module Gtool
       desc "list", "List organizational units"
       def list
         connection = Gtool::Auth.connection(options)
-        orgunits = GData::Provision::OrgUnit.all(connection)
-        fields = GData::Provision::OrgUnit.attribute_names
-        field_names = GData::Provision::OrgUnit.attribute_titles
+        orgunits = GProv::Provision::OrgUnit.all(connection)
+        fields = GProv::Provision::OrgUnit.attribute_names
+        field_names = GProv::Provision::OrgUnit.attribute_titles
 
         rows = orgunits.map do |orgunit|
           fields.map {|f| orgunit.send f}
@@ -30,9 +30,9 @@ module Gtool
       desc "get ORGUNIT", "Get an orgunit"
       def get(orgunit_name)
         connection = Gtool::Auth.connection(options)
-        orgunit = GData::Provision::OrgUnit.get(connection, orgunit_name)
-        fields = GData::Provision::OrgUnit.attribute_names
-        field_names = GData::Provision::OrgUnit.attribute_titles
+        orgunit = GProv::Provision::OrgUnit.get(connection, orgunit_name)
+        fields = GProv::Provision::OrgUnit.attribute_names
+        field_names = GProv::Provision::OrgUnit.attribute_titles
 
         if orgunit.nil?
           say "Organizational unit '#{orgunit_name}' not found!", :red
