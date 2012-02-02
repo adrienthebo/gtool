@@ -7,6 +7,7 @@ rescue LoadError
   require 'thor/group'
 end
 
+require 'gtool/version'
 require 'gtool/cli'
 require 'gtool/auth'
 require 'gtool/provision/user'
