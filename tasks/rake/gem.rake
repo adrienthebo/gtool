@@ -18,8 +18,8 @@ spec = Gem::Specification.new do |s|
   s.summary = "Command line interface to the Google Provisioning API"
   s.description = "All the fun of Google Provisioning, none of the HTML"
   s.version = Gtool::VERSION
-  s.add_dependency('gprov', ">= 0.0.2")
-  s.add_dependency('thor', ">= 0.14")
+  s.add_dependency('gprov', ">= 0")
+  s.add_dependency('thor', ">= 0")
   s.require_path = 'lib'
 end
 
