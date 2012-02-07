@@ -34,12 +34,13 @@ Usage
 
     % gtool
     Tasks:
-      gtool auth [COMMAND]     # GProv authentication operations
-      gtool customerid         # Display Customer ID for the domain
-      gtool group [COMMAND]    # GProv group provisioning
-      gtool help [TASK]        # Describe available tasks or one specific task
-      gtool orgunit [COMMAND]  # GProv user provisioning
-      gtool user [COMMAND]     # GProv user provisioning
+      gtool auth [COMMAND]       # GProv authentication operations
+      gtool customerid           # Display Customer ID for the domain
+      gtool group [COMMAND]      # GProv group provisioning
+      gtool help [TASK]          # Describe available tasks or one specific task
+      gtool orgmember [COMMAND]  # GProv organizational member provisioning
+      gtool orgunit [COMMAND]    # GProv organizational unit provisioning
+      gtool user [COMMAND]       # GProv user provisioning
 
 - - -
 
@@ -63,14 +64,14 @@ Usage
 
 - - -
 
-**Users**
+**View Customer ID information**
 
-    % gtool user
-    Tasks:
-      gtool user create USER     # Create a new user
-      gtool user delete USER     # Delete a user
-      gtool user get USER        # Get a user
-      gtool user list            # List users
+    % gtool customerid
+    Customer id:                    CUSTOMER_ID_HERE
+    Name:                           example.com
+    Description:
+    Customer org unit name:         example.com
+    Customer org unit description:  example.com
 
 - - -
 
@@ -84,15 +85,40 @@ Usage
       gtool group list                    # List groups
       gtool group members GROUP           # Display members of a group
 
+- - -
 
+**Users**
+
+    % gtool user
+    Tasks:
+      gtool user create USER     # Create a new user
+      gtool user delete USER     # Delete a user
+      gtool user get USER        # Get a user
+      gtool user groups USER     # Retrieve groups for a user
+      gtool user help [COMMAND]  # Describe subcommands or one specific subcommand
+      gtool user list            # List users
+      gtool user update USER     # Update an existing user
+
+- - -
 
 **Organizational Units**
 
     % gtool orgunit
     Tasks:
-      gtool orgunit get ORGUNIT      # Get an orgunit
-      gtool orgunit list             # List organizational units
-      gtool orgunit members ORGUNIT  # Get the members of an orgunit
+      gtool orgunit get ORGUNIT     # Get an orgunit
+      gtool orgunit help [COMMAND]  # Describe subcommands or one specific subcommand
+      gtool orgunit list            # List organizational units
+
+- - -
+
+**Organizational Unit Members**
+
+    % gtool orgmember
+    Tasks:
+      gtool orgmember get MEMBER                    # Retrieve a specific orgunit member
+      gtool orgmember help [COMMAND]                # Describe subcommands or one specific subcommand
+      gtool orgmember list                          # Get the members of an orgunit
+      gtool orgmember move ORG_MEMBER, NEW_ORGUNIT  # Move an organization unit member
 
 - - -
 
