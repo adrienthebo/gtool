@@ -63,6 +63,10 @@ module Gtool
       # TODO update group This is pending on the the backing group being able
       # to store the group_id for the case that the group_id here is changed,
       # but needs to post back to a specific url
+      desc "update GROUP", "Update group information"
+      def update(groupname)
+        say "#{self.class}#update not implemented!", :yellow
+      end
 
       desc "members GROUP", "Display members of a group"
       def members(groupname)
