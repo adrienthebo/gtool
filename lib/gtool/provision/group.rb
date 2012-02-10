@@ -68,6 +68,21 @@ module Gtool
         say "#{self.class}#update not implemented!", :yellow
       end
 
+      desc "delete GROUP", "Delete a group"
+      def delete(groupname)
+        connection = Gtool::Auth.connection(options)
+        invoke "group:get", [groupname]
+        group = GProv::Provision::Group.get(connection, groupname)
+
+        if group.nil?
+          say "Group #{groupname} not found!", :red
+        elsif (yes? "Permanently delete this group?") and (groupname == ask("Type in #{groupname} to confirm:"))
+          group.delete!
+        else
+          say "Not deleting group \"#{groupname}\".", :yellow
+        end
+      end
+
       desc "members GROUP", "Display members of a group"
       def members(groupname)
         connection = Gtool::Auth.connection(options)
