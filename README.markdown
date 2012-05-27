@@ -15,7 +15,8 @@ Installation
 
 **as a gem**
 
-Wait for someone to turn this into a gem.
+    gem install gtool
+    % gtool # magic!
 
 **from source**
 
@@ -25,7 +26,7 @@ Wait for someone to turn this into a gem.
     export RUBYLIB="${RUBYLIB}:`pwd`/ruby-gprov/lib:`pwd`/gtool/lib"
     export PATH="${PATH}:`pwd`/gtool/bin"
 
-    % gtool # magic!
+    % gtool # more magic!
 
 Usage
 -----
