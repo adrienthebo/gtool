@@ -2,6 +2,7 @@ require 'gtool'
 require 'gtool/util/ask_default'
 require 'gprov'
 require 'yaml'
+require 'osx_keychain'
 
 module Gtool
   class Auth < Thor
@@ -17,7 +18,14 @@ module Gtool
     def generate
       user = ask "Username:"
       %x{stty -echo}
-      pass = ask "Password:"
+
+      pass = nil
+      keychain = OSXKeychain.new
+      pass = keychain['gtool',user]
+      unless pass
+        pass = ask "Password:"
+      end
+
       %x{stty echo}
       puts
 
@@ -31,8 +39,9 @@ module Gtool
       if token.nil?
         say "Authentication failed!", :red
       else
+        keychain.set('gtool',user,pass)
         say "Authentication accepted, token valid till #{Time.now + TOKEN_DURATION}", :green
-        credentials = {:token => token, :created => Time.now, :domain => domain}
+        credentials = {:user => user, service => service, :token => token, :created => Time.now, :domain => domain}
 
         File.open("#{ENV['HOME']}/.gtool.yaml", "w") do |f|
           f.write(YAML.dump(credentials))

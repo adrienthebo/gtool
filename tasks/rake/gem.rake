@@ -20,6 +20,7 @@ spec = Gem::Specification.new do |s|
   s.version = Gtool::VERSION
   s.add_dependency('gprov', ">= 0")
   s.add_dependency('thor', ">= 0")
+  s.add_dependency('osx_keychain', ">= 0")
   s.require_path = 'lib'
 end
 
